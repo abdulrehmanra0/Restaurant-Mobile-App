@@ -3,6 +3,7 @@ class AppAssets {
 
   // --- IMAGES ---
   static const String logo = 'assets/images/logo.png';
+
   // Add other image assets here as you need them.
 
   // --- ICONS ---

@@ -5,7 +5,13 @@ import 'package:resturant/models/cart_item_model.dart';
 
 class OrderSummaryCard extends StatelessWidget {
   final List<CartItem> cartItems;
-  const OrderSummaryCard({super.key, required this.cartItems});
+  final VoidCallback onPlaceOrderPressed;
+
+  const OrderSummaryCard({
+    super.key,
+    required this.cartItems,
+    required this.onPlaceOrderPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +42,7 @@ class OrderSummaryCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: onPlaceOrderPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.orange,

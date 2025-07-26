@@ -57,6 +57,43 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
+  // --- ADD THIS NEW METHOD ---
+  // This method handles the entire order placement flow.
+  Future<void> _placeOrder() async {
+    // 1. Show a confirmation dialog to the user.
+    await showDialog(
+      context: context,
+      barrierDismissible: false, // User must tap button to close
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Order Confirmed!'),
+          content: const SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Thank you for your purchase.'),
+                Text('Your order has been placed successfully.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    // 2. Clear the cart from storage.
+    await _cartService.clearCart();
+
+    // 3. Refresh the UI to show the "Your cart is empty" message.
+    _fetchCartItems();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,7 +143,11 @@ class _CartScreenState extends State<CartScreen> {
             },
           ),
         ),
-        OrderSummaryCard(cartItems: _cartItems!),
+        // Pass the new _placeOrder method to the OrderSummaryCard
+        OrderSummaryCard(
+          cartItems: _cartItems!,
+          onPlaceOrderPressed: _placeOrder, // <-- UPDATE THIS LINE
+        ),
       ],
     );
   }

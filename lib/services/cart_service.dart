@@ -1,9 +1,9 @@
 // lib/services/cart_service.dart
 
 import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:resturant/models/cart_item_model.dart';
 import 'package:resturant/models/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartService {
   static const _cartKey = 'cartItems';
@@ -11,8 +11,9 @@ class CartService {
   Future<List<CartItem>> getCartItems() async {
     final prefs = await SharedPreferences.getInstance();
     final String? cartString = prefs.getString(_cartKey);
-    if (cartString == null) return [];
-
+    if (cartString == null) {
+      return [];
+    }
     final List<dynamic> cartJson = jsonDecode(cartString);
     return cartJson.map((json) => CartItem.fromJson(json)).toList();
   }
@@ -25,33 +26,43 @@ class CartService {
     await prefs.setString(_cartKey, cartString);
   }
 
-  Future<void> addToCart(Product product, {int quantity = 1}) async {
+  Future<void> addToCart(Product product) async {
     final cartItems = await getCartItems();
     final existingIndex = cartItems.indexWhere(
       (item) => item.product.id == product.id,
     );
 
     if (existingIndex != -1) {
-      cartItems[existingIndex].quantity += quantity;
+      cartItems[existingIndex].quantity++;
     } else {
-      cartItems.add(CartItem(product: product, quantity: quantity));
+      cartItems.add(CartItem(product: product));
     }
     await _saveCart(cartItems);
   }
 
   Future<void> updateQuantity(String productId, int newQuantity) async {
+    if (newQuantity <= 0) {
+      // If quantity is zero or less, remove it
+      final cartItems = await getCartItems();
+      cartItems.removeWhere((item) => item.product.id == productId);
+      await _saveCart(cartItems);
+      return;
+    }
     final cartItems = await getCartItems();
-    final itemIndex = cartItems.indexWhere(
+    final existingIndex = cartItems.indexWhere(
       (item) => item.product.id == productId,
     );
-
-    if (newQuantity <= 0) {
-      cartItems.removeAt(itemIndex);
-    } else {
-      if (itemIndex != -1) {
-        cartItems[itemIndex].quantity = newQuantity;
-      }
+    if (existingIndex != -1) {
+      cartItems[existingIndex].quantity = newQuantity;
+      await _saveCart(cartItems);
     }
-    await _saveCart(cartItems);
+  }
+
+  // --- ADD THIS METHOD ---
+  // Clear the entire cart from storage
+  Future<void> clearCart() async {
+    final prefs = await SharedPreferences.getInstance();
+    // Simply remove the entry associated with our cart key
+    await prefs.remove(_cartKey);
   }
 }
