@@ -24,8 +24,17 @@ A beautifully designed Flutter-based restaurant mobile application developed as 
 ---
 
 ## 📸 Screenshots
-
 ### 🧾 Menu Screen
+<img src="https://github.com/abdulrehmanra0/Restaurant-Mobile-App/blob/main/menu.jpg?raw=true" alt="Menu Screen" width="300"/>
+
+### 🔍 Search Screen
+<img src="https://github.com/abdulrehmanra0/Restaurant-Mobile-App/blob/main/serachpage.jpg?raw=true" alt="Search Screen" width="300"/>
+
+### 📦 Order Detail Screen
+<img src="https://github.com/abdulrehmanra0/Restaurant-Mobile-App/blob/main/orderdetails.jpg?raw=true" alt="Order Detail Screen" width="300"/>
+
+
+<!-- ### 🧾 Menu Screen
 ![Menu Screen](https://github.com/abdulrehmanra0/Restaurant-Mobile-App/blob/main/menu.jpg?raw=true)
 
 ### 🔍 Search Screen
@@ -34,7 +43,7 @@ A beautifully designed Flutter-based restaurant mobile application developed as 
 ### 📦 Order Detail Screen
 ![Order Detail](https://github.com/abdulrehmanra0/Restaurant-Mobile-App/blob/main/orderdetails.jpg?raw=true)
 
----
+--- -->
 
 ## 🛠️ Tech Stack & Architecture
 
@@ -45,13 +54,14 @@ A beautifully designed Flutter-based restaurant mobile application developed as 
 - **Architecture**: Clean Architecture
 
 ### 📂 Project Structure
+
 lib/
-├── constants # Asset paths and constants
-├── data # Sample/mock data
-├── models # Data classes (Product, CartItem)
-├── screens # UI Screens (Login, Home, Cart, etc.)
-├── services # Firebase auth, cart logic
-└── widgets # Reusable UI components
+├── constants     # Asset paths and constants
+├── data         # Sample/mock data
+├── models       # Data classes (Product, CartItem)
+├── screens      # UI Screens (Login, Home, Cart, etc.)
+├── services     # Firebase auth, cart logic
+└── widgets      # Reusable UI components
 
 
 ---
