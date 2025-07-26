@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (user != null) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MenuScreen()),
+        MaterialPageRoute(builder: (context) => const MainScreen()),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -123,18 +123,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   },
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      // TODO: Implement Forgot Password
-                    },
-                    child: const Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: Colors.redAccent),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.centerRight,
+                //   child: TextButton(
+                //     onPressed: () {
+                //       // TODO: Implement Forgot Password
+                //     },
+                //     // child: const Text(
+                //     //   'Forgot Password?',
+                //     //   style: TextStyle(color: Colors.redAccent),
+                //     // ),
+                //   ),
+                // ),
                 const SizedBox(height: 16),
                 CustomButton(
                   text: 'Login',

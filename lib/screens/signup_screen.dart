@@ -43,6 +43,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return;
     }
 
+    if (_passwordController.text.trim().length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Password must be at least 6 characters long.'),
+        ),
+      );
+      return;
+    }
+
     setState(() => _isLoading = true);
 
     final user = await _authService.signUpWithEmailAndPassword(
@@ -56,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       // TODO: Save user's name and phone number to a 'users' collection in Firestore.
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MenuScreen()),
+        MaterialPageRoute(builder: (context) => const MainScreen()),
       );
     } else if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
