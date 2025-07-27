@@ -8,9 +8,6 @@ import 'package:resturant/widgets/food_item_card.dart';
 import 'package:resturant/widgets/promo_banner_card.dart';
 import 'package:resturant/screens/search_screen.dart'; // <-- ADD THIS IMPORT
 
-//******************************************************************
-// MainScreen is the new "host" widget with the Bottom Navigation Bar
-//******************************************************************
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -144,21 +141,41 @@ class DashboardPage extends StatelessWidget {
 
         const SliverToBoxAdapter(child: SizedBox(height: 24)),
 
-        // 3. The Search Bar
+        // --- THIS IS THE SECTION TO UPDATE ---
+        // 3. The Search Bar (now a tappable navigation button)
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for food, restaurants...',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: const Icon(Icons.mic),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+            // We use a GestureDetector to detect taps on the entire bar.
+            child: GestureDetector(
+              onTap: () {
+                // When tapped, we navigate to the actual SearchScreen.
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SearchScreen()),
+                );
+              },
+              // This Container is styled to look exactly like a text field.
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 14.0,
                 ),
-                fillColor: Colors.grey[100],
-                filled: true,
+                decoration: BoxDecoration(
+                  color: Colors.grey[100],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    Icon(Icons.search, color: Colors.grey[600]),
+                    const SizedBox(width: 10),
+                    Text(
+                      'Search for food, restaurants...',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                    ),
+                    const Spacer(), // Pushes the mic icon to the end
+                    Icon(Icons.mic, color: Colors.grey[600]),
+                  ],
+                ),
               ),
             ),
           ),
@@ -211,149 +228,3 @@ class DashboardPage extends StatelessWidget {
     );
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:resturant/data/sample_data.dart';
-// import 'package:resturant/widgets/food_item_card.dart'; // Assuming this is your card's file
-// import 'package:resturant/widgets/promo_banner_card.dart'; // Assuming this is your banner's file
-// // We will create the detail screen in the next step
-// // import 'package:restaurant_app/screens/product_detail_screen.dart';
-
-// class MenuScreen extends StatelessWidget {
-//   const MenuScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       // The CustomScrollView allows us to mix different scrolling widgets (slivers)
-//       body: CustomScrollView(
-//         slivers: [
-//           // 1. The App Bar with the "Dashboard" title
-//           const SliverAppBar(
-//             title: Text(
-//               'Dashboard',
-//               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-//             ),
-//             backgroundColor: Colors.white,
-//             pinned: true, // Keeps the app bar visible
-//             elevation: 0,
-//           ),
-
-//           // 2. The Promo Banner Card (using SliverToBoxAdapter to place a single widget)
-//           SliverToBoxAdapter(
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//               child: PromoBannerCard(product: SampleData.specialOffer),
-//             ),
-//           ),
-
-//           // SliverToBoxAdapter for adding some vertical space
-//           const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-//           // 3. The Search Bar (a placeholder for now)
-//           SliverToBoxAdapter(
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//               child: TextField(
-//                 decoration: InputDecoration(
-//                   hintText: 'Search for food, restaurants...',
-//                   prefixIcon: const Icon(Icons.search),
-//                   suffixIcon: const Icon(Icons.mic),
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(12),
-//                     borderSide: BorderSide.none,
-//                   ),
-//                   fillColor: Colors.grey[100],
-//                   filled: true,
-//                 ),
-//               ),
-//             ),
-//           ),
-
-//           const SliverToBoxAdapter(child: SizedBox(height: 24)),
-
-//           // 4. "Best Offers" Section Header
-//           SliverToBoxAdapter(
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//               child: Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   const Text(
-//                     'Best Offers 🔥',
-//                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-//                   ),
-//                   TextButton(onPressed: () {}, child: const Text('See all')),
-//                 ],
-//               ),
-//             ),
-//           ),
-
-//           const SliverToBoxAdapter(child: SizedBox(height: 16)),
-
-//           // 5. Horizontally Scrolling List of Food Items
-//           SliverToBoxAdapter(
-//             child: SizedBox(
-//               height: 240, // Important: Give the horizontal list a fixed height
-//               child: ListView.builder(
-//                 scrollDirection: Axis.horizontal,
-//                 itemCount: SampleData.products.length,
-//                 itemBuilder: (context, index) {
-//                   final product = SampleData.products[index];
-//                   return Padding(
-//                     padding: EdgeInsets.only(
-//                       left: index == 0 ? 16.0 : 8.0,
-//                       right: index == SampleData.products.length - 1
-//                           ? 16.0
-//                           : 8.0,
-//                     ),
-//                     child: FoodItemCard(product: product), // Your custom card
-//                   );
-//                 },
-//               ),
-//             ),
-//           ),
-
-//           // 6. TODO: Add the "Explore more" section here following the same pattern
-//         ],
-//       ),
-//       // We will add the BottomNavigationBar in a later step
-//       // bottomNavigationBar: ...,
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-// import 'package:resturant/services/auth_service.dart';
-// import 'package:resturant/screens/login_screen.dart';
-
-// class MenuScreen extends StatelessWidget {
-//   const MenuScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final AuthService authService = AuthService();
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Menu'),
-//         backgroundColor: Colors.orange,
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.logout),
-//             onPressed: () async {
-//               await authService.signOut();
-//               // Navigate back to Login Screen and remove all previous routes
-//               Navigator.of(context).pushAndRemoveUntil(
-//                 MaterialPageRoute(builder: (context) => const LoginScreen()),
-//                 (Route<dynamic> route) => false,
-//               );
-//             },
-//           ),
-//         ],
-//       ),
-//       body: const Center(child: Text('Welcome to the Restaurant!')),
-//     );
-//   }
-// }

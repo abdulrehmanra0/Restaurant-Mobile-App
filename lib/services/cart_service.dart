@@ -58,7 +58,6 @@ class CartService {
     }
   }
 
-  // --- ADD THIS METHOD ---
   // Clear the entire cart from storage
   Future<void> clearCart() async {
     final prefs = await SharedPreferences.getInstance();

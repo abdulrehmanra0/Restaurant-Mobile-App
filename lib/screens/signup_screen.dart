@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:resturant/screens/login_screen.dart';
 import 'package:resturant/widgets/custom_button.dart';
 import 'package:resturant/widgets/custom_textfield.dart';
-// Assuming your logo is in assets
 import 'package:resturant/constants/app_assets.dart';
 import 'package:resturant/services/auth_service.dart';
 import 'package:resturant/screens/menu_screen.dart';

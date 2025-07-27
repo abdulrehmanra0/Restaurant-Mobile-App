@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:resturant/data/sample_data.dart';
 import 'package:resturant/models/product_model.dart';
+// --- ADD THIS IMPORT ---
+import 'package:resturant/screens/product_detail_screen.dart';
 import 'package:resturant/widgets/search_result_list_item.dart';
-// import 'package:speech_to_text/speech_to_text.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -13,17 +14,14 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  // final SpeechToText _speechToText = SpeechToText();
 
   List<Product> _allProducts = [];
   List<Product> _filteredProducts = [];
-  // bool _speechEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    // _initSpeech();
-    // Load all products initially
+
     _allProducts = SampleData.products;
     _filteredProducts = _allProducts;
     _searchController.addListener(_filterProducts);
@@ -34,33 +32,6 @@ class _SearchScreenState extends State<SearchScreen> {
     _searchController.dispose();
     super.dispose();
   }
-
-  // /// Initializes the speech-to-text engine
-  // void _initSpeech() async {
-  //   _speechEnabled = await _speechToText.initialize();
-  //   setState(() {});
-  // }
-
-  // /// Starts a speech recognition session
-  // void _startListening() async {
-  //   await _speechToText.listen(
-  //     onResult: (result) {
-  //       setState(() {
-  //         _searchController.text = result.recognizedWords;
-  //         _searchController.selection = TextSelection.fromPosition(
-  //           TextPosition(offset: _searchController.text.length),
-  //         );
-  //       });
-  //     },
-  //   );
-  //   setState(() {});
-  // }
-
-  // /// Stops the listening session
-  // void _stopListening() async {
-  //   await _speechToText.stop();
-  //   setState(() {});
-  // }
 
   /// Filters the list of products based on the search query
   void _filterProducts() {
@@ -92,18 +63,7 @@ class _SearchScreenState extends State<SearchScreen> {
               decoration: InputDecoration(
                 hintText: 'Search by name...',
                 prefixIcon: const Icon(Icons.search),
-                // The microphone button
-                // suffixIcon: IconButton(
-                //   icon: Icon(
-                //     _speechToText.isListening ? Icons.mic_off : Icons.mic,
-                //     color: _speechEnabled ? Colors.orange : Colors.grey,
-                //   ),
-                //   onPressed: _speechEnabled
-                //       ? (_speechToText.isNotListening
-                //             ? _startListening
-                //             : _stopListening)
-                //       : null, // Disable if speech not enabled
-                // ),
+
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: const BorderSide(color: Colors.grey),
@@ -118,8 +78,26 @@ class _SearchScreenState extends State<SearchScreen> {
                 : ListView.builder(
                     itemCount: _filteredProducts.length,
                     itemBuilder: (context, index) {
-                      return SearchResultListItem(
-                        product: _filteredProducts[index],
+                      final product = _filteredProducts[index];
+
+                      // --- THIS IS THE KEY CHANGE ---
+                      // We wrap the list item in a GestureDetector to make it tappable.
+                      return GestureDetector(
+                        onTap: () {
+                          // When tapped, navigate to the ProductDetailScreen
+                          // and pass the specific product that was tapped.
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductDetailScreen(product: product),
+                            ),
+                          );
+                        },
+                        // We set the behavior to translucent to make sure the
+                        // entire row area is tappable, not just the visible parts.
+                        behavior: HitTestBehavior.translucent,
+                        child: SearchResultListItem(product: product),
                       );
                     },
                   ),

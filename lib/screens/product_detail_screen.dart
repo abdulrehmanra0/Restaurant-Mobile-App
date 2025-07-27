@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:resturant/models/product_model.dart';
 import 'package:resturant/services/cart_service.dart';
-import 'package:resturant/widgets/custom_button.dart'; // We'll reuse our button
+import 'package:resturant/widgets/custom_button.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
